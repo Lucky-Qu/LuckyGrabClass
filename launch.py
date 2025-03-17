@@ -1,9 +1,9 @@
 import time
-
 from PyQt6.QtWidgets import QApplication, QPushButton, QWidget, QVBoxLayout, QTextEdit
 import sys
 import subprocess
 import threading
+
 
 class Launcher(QWidget):
     def __init__(self):
@@ -33,6 +33,11 @@ class Launcher(QWidget):
         self.stop_button.setEnabled(False)  # 初始状态不可用
         layout.addWidget(self.stop_button)
 
+        # 获取配置按钮
+        self.get_config_button = QPushButton("获取配置", self)
+        self.get_config_button.clicked.connect(self.get_config)
+        layout.addWidget(self.get_config_button)
+
         self.setLayout(layout)
 
     def log_message(self, message):
@@ -44,8 +49,11 @@ class Launcher(QWidget):
         self.log_window.clear()
         self.log_message("本项目完全开源，项目地址https://github.com/Lucky-Qu/LuckyGrabClass，如遇问题可提issue")
         self.log_message("在程序运行过程中，除需要终止程序，请不要操作鼠标或键盘，以防误触")
+        self.log_message("请确保课堂派在前台可视区域运行")
         self.log_message("程序正在启动")
+
         def run():
+            # 启动 main.py
             self.process = subprocess.Popen(
                 ["python3", "main.py"],
                 stdout=subprocess.PIPE,
@@ -77,6 +85,29 @@ class Launcher(QWidget):
             self.log_message("程序已被手动停止")
             self.start_button.setEnabled(True)  # 重新启用启动按钮
             self.stop_button.setEnabled(False)  # 禁用停止按钮
+
+    def get_config(self):
+        """ 获取配置并显示 """
+        self.log_window.clear()
+
+        # 启动 config.py
+        def run():
+            process = subprocess.Popen(
+                ["python3", "config.py"],  # 运行 config.py
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True
+            )
+
+            for line in process.stdout:
+                self.log_message(line.strip())
+
+            process.wait()
+            self.log_message("配置已获取")
+
+        thread = threading.Thread(target=run)
+        thread.start()
+
 
 app = QApplication(sys.argv)
 window = Launcher()
