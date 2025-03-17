@@ -26,11 +26,10 @@ def get_config():
     screen_height *= scaling
     screen_width *= scaling
     print(f"显示器分辨率为：{screen_height} x {screen_width}")
-    print("五秒后开始获取关键位置信息，请确保指尖派小程序保持在屏幕可视区域内！请勿移动鼠标！")
-    time.sleep(5)
+    print("十秒后开始获取关键位置信息，请单击指尖派小程序以确保处于被选中的前台状态")
+    time.sleep(9)
     # 重启小程序
     restart_mp(scaling)
-    time.sleep(1)
     screenshot = pyautogui.screenshot()
     screenshot.save(f"static/screenshot/screenshot.png")
     #处理为灰度图
@@ -142,5 +141,6 @@ def restart_mp(scaling):
     #点击
     time.sleep(0.5)
     pyautogui.click((x1 + x2) / 2 / scaling, (y1 + y2) / 2 / scaling)
+    time.sleep(1)
 
 get_config()

@@ -1,5 +1,4 @@
-import time
-from PyQt6.QtWidgets import QApplication, QPushButton, QWidget, QVBoxLayout, QTextEdit
+from PyQt6.QtWidgets import QApplication, QPushButton, QWidget, QVBoxLayout, QTextEdit, QComboBox
 import sys
 import subprocess
 import threading
@@ -13,7 +12,7 @@ class Launcher(QWidget):
 
     def initUI(self):
         self.setWindowTitle("抢课程序v4--Developed by LuckyQu")
-        self.setGeometry(100, 100, 400, 300)
+        self.setGeometry(100, 100, 400, 350)
 
         layout = QVBoxLayout()
 
@@ -21,6 +20,11 @@ class Launcher(QWidget):
         self.log_window = QTextEdit(self)
         self.log_window.setReadOnly(True)  # 只读
         layout.addWidget(self.log_window)
+
+        # 模式选择
+        self.mode_selector = QComboBox(self)
+        self.mode_selector.addItems(["纯图像识别模式（高精准低速度）", "图像坐标混合模式（均衡精准和速度）", "纯坐标模式(低精准高速度)"])
+        layout.addWidget(self.mode_selector)
 
         # 启动按钮
         self.start_button = QPushButton("启动程序", self)
@@ -47,15 +51,16 @@ class Launcher(QWidget):
     def start_program(self):
         """ 启动 main.py 并读取日志 """
         self.log_window.clear()
-        self.log_message("本项目完全开源，项目地址https://github.com/Lucky-Qu/LuckyGrabClass，如遇问题可提issue")
-        self.log_message("在程序运行过程中，除需要终止程序，请不要操作鼠标或键盘，以防误触")
-        self.log_message("请确保课堂派在前台可视区域运行")
-        self.log_message("程序正在启动")
+
+        mode = self.mode_selector.currentText()  # 获取用户选择的模式
+        mode_arg = {"纯图像识别模式（高精准低速度）": "image_mode", "图像坐标混合模式（均衡精准和速度）": "mix_mode", "纯坐标模式(低精准高速度)": "coordinate"}.get(mode, "mix_mode")
+
+        self.log_message(f"已选择模式：{mode}")
 
         def run():
-            # 启动 main.py
+            # 启动 main.py 并传递模式参数
             self.process = subprocess.Popen(
-                ["python3", "main.py"],
+                ["python3", "main.py", "--mode", mode_arg],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True
@@ -80,20 +85,19 @@ class Launcher(QWidget):
         """ 终止运行中的程序 """
         if self.process:
             self.log_message("正在停止程序...")
-            self.process.terminate()  # 终止进程
-            self.process.wait()  # 等待进程完全退出
+            self.process.terminate()
+            self.process.wait()
             self.log_message("程序已被手动停止")
-            self.start_button.setEnabled(True)  # 重新启用启动按钮
-            self.stop_button.setEnabled(False)  # 禁用停止按钮
+            self.start_button.setEnabled(True)
+            self.stop_button.setEnabled(False)
 
     def get_config(self):
         """ 获取配置并显示 """
         self.log_window.clear()
 
-        # 启动 config.py
         def run():
             process = subprocess.Popen(
-                ["python3", "config.py"],  # 运行 config.py
+                ["python3", "config.py"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True
