@@ -1,6 +1,16 @@
 {
-  "system" : "",
-  "resolution" : "",
-  "screenshot_area" : "",
-  "scale": ""
+    "system": "Darwin",
+    "scaling": 2,
+    "screen_height": 3024,
+    "screen_width": 1964,
+    "screenshot_range": [
+        [
+            1096,
+            162
+        ],
+        [
+            1928,
+            1724
+        ]
+    ]
 }

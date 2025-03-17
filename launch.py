@@ -103,7 +103,7 @@ class Launcher(QWidget):
                 self.log_message(line.strip())
 
             process.wait()
-            self.log_message("配置已获取")
+            self.log_message("关键数据已获取并存储，检查无误后即可点击开始抢课")
 
         thread = threading.Thread(target=run)
         thread.start()
