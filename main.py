@@ -37,7 +37,6 @@ def match_with_image(scaling,template_path,screenshot_range):
     x1, y1 = min_loc
     h, w = template.shape[:2]
     x2, y2 = x1 + w, y1 + h
-    print(x1,y1,x2,y2)
     coordinate = [int((x1 + a +x2 + a)/2), int((y1 + b+y2 + b)/2)]
     #返回逻辑坐标值
     return coordinate
@@ -81,8 +80,10 @@ def image_mode(scaling, screen_height, screen_width, screenshot_range):
     #进入三次确认
     coordinate = match_with_image(scaling, "static/template/button_signup_first.png", screenshot_range)
     pyautogui.click((coordinate[0],coordinate[1]))
+    time.sleep(0.2)
     coordinate = match_with_image(scaling, "static/template/button_signup_second.png", screenshot_range)
     pyautogui.click((coordinate[0],coordinate[1]))
+    time.sleep(0.2)
     coordinate = match_with_image(scaling, "static/template/button_signup_third.png", screenshot_range)
     pyautogui.click((coordinate[0],coordinate[1]))
 
