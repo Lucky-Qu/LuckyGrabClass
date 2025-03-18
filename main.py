@@ -83,9 +83,15 @@ def image_mode(scaling, screen_height, screen_width, screenshot_range):
     time.sleep(0.2)
     coordinate = match_with_image(scaling, "static/template/button_signup_second.png", screenshot_range)
     pyautogui.click((coordinate[0],coordinate[1]))
+    pyautogui.click((coordinate[0],coordinate[1]))
     time.sleep(0.2)
     coordinate = match_with_image(scaling, "static/template/button_signup_third.png", screenshot_range)
     pyautogui.click((coordinate[0],coordinate[1]))
+    time.sleep(0.1)
+    pyautogui.click((coordinate[0],coordinate[1]))
+    coordinate = match_with_image(scaling, "static/template/button_signup_third.png", screenshot_range)
+    time.sleep(0.1)
+
 
 #坐标匹配模式
 def coordinate_mode(scaling, screen_height, screen_width, screenshot_range):
@@ -101,15 +107,12 @@ def main():
     mode,system,scaling,screen_height,screen_width,screenshot_range = load_config()
     print(f"操作系统：{system}，屏幕缩放：{scaling}，屏幕分辨率：{screen_height} x {screen_width}，小程序运行范围：{screenshot_range}")
     print("配置加载完成，程序开始运行")
-    image_mode(scaling, screen_height, screen_width, screenshot_range)
-
-
-    # if mode == "image_mode":
-    #     image_mode(scaling, screen_height, screen_width, screenshot_range)
-    # elif mode == "mix_mode":
-    #     mix_mode(scaling, screen_height, screen_width, screenshot_range)
-    # elif mode == "coordinate":
-    #     coordinate_mode(scaling, screen_height, screen_width, screenshot_range)
+    if mode == "image_mode":
+        image_mode(scaling, screen_height, screen_width, screenshot_range)
+    elif mode == "mix_mode":
+        mix_mode(scaling, screen_height, screen_width, screenshot_range)
+    elif mode == "coordinate":
+        coordinate_mode(scaling, screen_height, screen_width, screenshot_range)
 
 
 main()
