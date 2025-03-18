@@ -53,7 +53,7 @@ class Launcher(QWidget):
         self.log_window.clear()
 
         mode = self.mode_selector.currentText()  # 获取用户选择的模式
-        mode_arg = {"纯图像识别模式（高精准低速度）": "image_mode", "图像坐标混合模式（均衡精准和速度）": "mix_mode", "纯坐标模式(低精准高速度)": "coordinate"}.get(mode, "mix_mode")
+        mode_arg = {"纯图像识别模式（高精准低速度）": "image_mode", "图像坐标混合模式（均衡精准和速度）": "mix_mode", "纯坐标模式(低精准高速度)": "coordinate"}.get(mode, "image_mode")
 
         self.log_message(f"已选择模式：{mode}")
 

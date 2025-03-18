@@ -83,8 +83,8 @@ def get_config():
     x2, y2 = x1 + w, y1 + h
     #点击
     pyautogui.click((x1 + x2) / 2 / scaling, (y1 + y2) / 2 / scaling)
-    screenshot_range = [(x1, y1), (x2, y2)]
-    print(f"课堂派运行范围为：{screenshot_range}")
+    screenshot_range = [x1, y1, x2, y2]
+    print(f"指尖派运行范围为：{screenshot_range}")
     #写入配置
     config = {
         "system":system,
